@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+    font-size: small;
+
+}
+
+.box{
+    background-color: #9f9f9f27;
+}
+
+.mycolor{
+  color:#007A69;
+}
+
+.myborder{
+ border: 1px solid #CCF2E5;
+}
+
+.button1{
+    background-color:#CCF2E5;
+}
+
+ 
+  #sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+  }
+  
+  #sidebar-wrapper .sidebar-heading {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+  }
+  
+  #sidebar-wrapper .list-group {
+    width: 15rem;
+  }
+  
+  #page-content-wrapper {
+    min-width: 100vw;
+
+  }
+  
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+  }
+  
+
+  .list-group-item {
+    border: none;
+    padding: 20px 30px;
+  }
+  
+  #menu-toggle{
+    cursor: pointer;
+  }
+ 
+  @media (min-width: 768px) {
+    #sidebar-wrapper {
+      margin-left: 0;
+    }
+  
+    #page-content-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+  
+    #wrapper.toggled #sidebar-wrapper {
+      margin-left: -15rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .appointment-table{
+      width: 100%;
+    }
+  }
+
+
+
+
+
+
+
+  /* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f100;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #CCF2E5;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #007A69;
+}
+
+a{
+  cursor: pointer !important;
+}
+
+.invalid{
+  background-color: rgba(255, 0, 0, 0.1);  
+  border: 1px solid red ;
+}
