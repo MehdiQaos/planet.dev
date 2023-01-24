@@ -23,7 +23,7 @@
                     </div>
                 </div>
                     <button class="btn btn-lg btn-block btn-light my-3 mycolor button1 fs-6 " type="button">Log out</button> </div>
-            <form method="POST" action="<?= $_SERVER['PHP_SELF'] ?>" class="list-group list-group-flush my-3">
+            <form method="GET" action="<?= $_SERVER['PHP_SELF'] ?>" class="list-group list-group-flush my-3">
                 <button type="submit" name="new_article" class="list-group-item list-group-item-action fw-bold"><i
                         class="uil uil-chart-bar fs-4 me-2"></i>new article</button>
                 <button type="submit" name="articles" class="list-group-item list-group-item-action fw-bold"><i
@@ -51,7 +51,7 @@
             <!-- main content -->
             <main class="container-fluid px-4">
                 <?php
-                    if(isset($_POST["new_article"]))
+                    if(isset($_GET["new_article"]))
                         require "./includes/new_article.php";
                     else
                         require "./includes/articles.php";
