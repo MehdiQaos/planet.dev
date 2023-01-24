@@ -29,7 +29,7 @@ CREATE table Articles (
     body TEXT,
     category_id INT,
     author_id INT,
-    created_at datetime,
+    created_at datetime NOT NULL,
     updated_at datetime,
     deleted_at datetime,
     FOREIGN KEY (author_id) REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE,
