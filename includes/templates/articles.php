@@ -1,18 +1,12 @@
 <?php
 
-include "classes/dbh.class.php";
+include "includes/autoload.inc.php";
 
 function showArticles()
 {
-    $db = new Dbh;
-    $pdo = $db->connect();
-    $sql = 'SELECT title, firstname, lastname, Categories.name as categoryname, Articles.id as id
-            FROM Articles
-            JOIN Users ON Users.id = Articles.author_id
-            JOIN Categories ON Articles.category_id = Categories.id
-            ;';
-    $result = $pdo->query($sql);
-    foreach ($result->fetchAll() as $article) {
+    $articleController = new ArticleContr();
+    $articles = $articleController->getArticlesInfo();
+    foreach ($articles as $article) {
         $author = $article['firstname'] . $article['lastname'];
         echo "<tr>
                 <td class='text-dark text-center'>{$article['title']}</td>
@@ -79,8 +73,8 @@ function showArticles()
                     method: 'post',
                     body: formData
                 });
-                let result = await response.json();
-                console.log(result);
+                // let result = await response.json();
+                // console.log(result);
                 location.reload();
             });
         });

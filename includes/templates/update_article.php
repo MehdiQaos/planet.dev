@@ -1,6 +1,6 @@
 <?php
 
-include "includes/autoload.inc.php";
+include_once "includes/autoload.inc.php";
 
 function showCategories() {
     $categoryContr = new CategoryContr();

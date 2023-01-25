@@ -19,10 +19,21 @@ class ArticleModel extends Dbh {
         }
     }
 
-    public function getArticlesInfo() {
-        $sql = 'SELECT *
+    public function deleteArticle($id) {
+        $sql = 'DELETE
                 FROM Articles
-                ;';
+                WHERE id = ?;';
+        $params = [$id];
+        $stm = $this->connect()->prepare($sql);
+        return $stm->execute($params);
+    }
+
+    public function getArticlesInfo() {
+        $sql = 'SELECT title, firstname, lastname, Categories.name as categoryname, Articles.id as id
+                FROM Articles
+                JOIN Users ON Users.id = Articles.author_id
+                JOIN Categories ON Articles.category_id = Categories.id
+            ;';
         try {
             $result = $this->connect()->query($sql);
             return $result->fetchAll();
