@@ -1,3 +1,11 @@
+<?php
+
+session_start();
+if (!isset($_SESSION['user_info']))
+    header('location: login.php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,12 +30,16 @@
                         <p class="text-secondary fs-6">admin@youcode.ma</p>
                     </div>
                 </div>
-                    <button class="btn btn-lg btn-block btn-light my-3 mycolor button1 fs-6 " type="button">Log out</button> </div>
+                    <a href="includes/logout.inc.php" class="btn btn-lg btn-block btn-light my-3 mycolor button1 fs-6 " type="button">Log out</a> </div>
             <form method="GET" action="<?= $_SERVER['PHP_SELF'] ?>" class="list-group list-group-flush my-3">
-                <button type="submit" name="new_article" class="list-group-item list-group-item-action fw-bold"><i
-                        class="uil uil-chart-bar fs-4 me-2"></i>new article</button>
+                <button type="submit" name="dashboard" class="list-group-item list-group-item-action fw-bold"><i
+                        class="uil uil-chart-bar fs-4 me-2"></i>Dashboard</button>
                 <button type="submit" name="articles" class="list-group-item list-group-item-action fw-bold"><i
                         class="uil uil-medkit me-2 fs-4" ></i>articles</button>
+                <button type="submit" name="new_article" class="list-group-item list-group-item-action fw-bold"><i
+                        class="uil uil-chart-bar fs-4 me-2"></i>new article</button>
+                <button type="submit" name="users" class="list-group-item list-group-item-action fw-bold"><i
+                        class="uil uil-medkit me-2 fs-4" ></i>users</button>
             </form>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -51,10 +63,14 @@
             <!-- main content -->
             <main class="container-fluid px-4">
                 <?php
-                    if(isset($_GET["new_article"]))
-                        require "./includes/new_article.php";
+                    if(isset($_GET["articles"]))
+                        require "./includes/templates/articles.php";
+                    else if(isset($_GET["users"]))
+                        require "./includes/templates/users.php";
+                    else if(isset($_GET["new_article"]))
+                        require "./includes/templates/new_article.php";
                     else
-                        require "./includes/articles.php";
+                        require "./includes/templates/dashboard.php";
                 ?>
             </main>
 

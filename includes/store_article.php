@@ -1,6 +1,6 @@
 <?php
 
-require 'database.php';
+include "../classes/dbh.class.php";
 
 if (isset($_POST['articles']))
 {

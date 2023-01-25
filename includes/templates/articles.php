@@ -1,6 +1,6 @@
 <?php
 
-require 'includes/database.php';
+include "classes/dbh.class.php";
 
 function showArticles()
 {
