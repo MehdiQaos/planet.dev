@@ -1,22 +1,7 @@
 <?php
 
-include "includes/autoload.inc.php";
-
-function showCategories() {
-    $categoryContr = new CategoryContr();
-    $categories = $categoryContr->getCategories();
-    foreach ($categories as $category) {
-        echo "<option value='{$category['id']}'>{$category['name']}</option>\n";
-    }
-}
-
-function showWriters() {
-    $userContr = new UserContr();
-    $writers = $userContr->getWriters();
-    foreach ($writers as $writer) {
-        echo "<option value='{$writer['id']}'>{$writer['fullname']}</option>\n";
-    }
-}
+include_once "includes/autoload.inc.php";
+include_once 'includes/functions.php';
 
 ?>
 
@@ -57,7 +42,6 @@ function showWriters() {
     <script>
         tinymce.init({
             selector: 'textarea',
-            // plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
             plugins: 'image',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
             tinycomments_mode: 'embedded',
@@ -76,8 +60,7 @@ function showWriters() {
         const articleCategory = document.getElementById('article_category');
         const articleForm = document.getElementById('article_form');
         const newArticles = document.getElementById('new_articles');
-        const titleNeededLabel = document.getElementById('title_label_needed'); //delete
-        const articleNeededLabel = document.getElementById('article_label_needed');  //delete
+        const articleNeededLabel = document.getElementById('article_label_needed');
         const articlesInput = document.getElementById('articles_input');
         const articlesInputForm = document.getElementById('articles_input_form');
 
@@ -130,6 +113,8 @@ function showWriters() {
             addArticleToDom(article);
             tinymce.activeEditor.setContent('');
             articleTitle.value = '';
+            articleAuthor.value = '';
+            articleCategory.value = '';
         });
 
         saveButton.addEventListener('click', async (e) => {

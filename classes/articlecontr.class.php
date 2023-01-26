@@ -12,7 +12,6 @@ class ArticleContr extends ArticleModel {
 
     public function addArticles($articles) {
         foreach ($articles as $article) {
-            // TODO: check article inputs
             $title = $article['title'];
             $body = $article['body'];
             $category_id = $article['category_id'];

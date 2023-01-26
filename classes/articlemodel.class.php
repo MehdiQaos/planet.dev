@@ -29,7 +29,7 @@ class ArticleModel extends Dbh {
     }
 
     public function getArticlesInfo() {
-        $sql = 'SELECT title, firstname, lastname, Categories.name as categoryname, Articles.id as id
+        $sql = 'SELECT title, firstname, lastname, CONCAT(firstname, " ", lastname) as fullname, Categories.name as categoryname, Articles.id as id
                 FROM Articles
                 JOIN Users ON Users.id = Articles.author_id
                 JOIN Categories ON Articles.category_id = Categories.id

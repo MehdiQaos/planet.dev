@@ -1,6 +1,7 @@
 <?php
 
 include_once "includes/autoload.inc.php";
+$articleToUpdateId = $_GET['id'];
 
 function showCategories() {
     $categoryContr = new CategoryContr();
@@ -22,7 +23,7 @@ function showWriters() {
 
 <section id="new_article_container" class="container">
     <form method="POST" id="articles_input_form" action="includes/store_article.php" class="row">
-        <div class="mb-3" id="new_articles"></div>
+        <div dataset-article-id='<?= $articleToUpdateId ?>' id="atuid" hidden></div>
         <div class="mb-2">
             <input type="text" id="article_title" class="w-100 form-control required_input" placeholder="Article title">
             <label id="title_label_needed" class="text-danger msg_label d-none">title needed</label>
@@ -76,14 +77,20 @@ function showWriters() {
         const articleCategory = document.getElementById('article_category');
         const articleForm = document.getElementById('article_form');
         const newArticles = document.getElementById('new_articles');
-        const titleNeededLabel = document.getElementById('title_label_needed'); //delete
         const articleNeededLabel = document.getElementById('article_label_needed');  //delete
         const articlesInput = document.getElementById('articles_input');
         const articlesInputForm = document.getElementById('articles_input_form');
+        const atuid = document.getElementById('atuid').dataset.articleId;
 
-
-        const allArticles = [];
-        nextId = 1;
+        async function fillInputs() {
+            let response = await fetch(`includes/updatearticle.php?get_article_data=${atuid}`);
+            let data = await response.json();
+            console.log(data);
+            // articleTitle.value = data['title'];
+            // articleAuthor.value = data['author_id'];
+            // articleCategory.value = data['category_id'];
+            // tinymce.activeEditor.setContent(data['body']);
+        }
 
         function validateInputs() {
             let valide = true;
