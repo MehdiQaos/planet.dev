@@ -12,7 +12,6 @@ if (isset($_POST['login'])) {
 
     $login = new LoginContr($uid, $pwd);
     $row = $login->loginUser();
-    // var_dump($_POST);
     if ($login->_error) {
         header('location: ../login.php?error=' . $login->_errorMsg);
         exit();

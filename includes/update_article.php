@@ -10,7 +10,6 @@ if (isset($_GET['get_article_data'])) {
 }
 
 if (isset($_POST['update_article'])) {
-    // echo 'mehdi qaos';
     $articleContr = new ArticleContr;
     $id = $_POST['id'];
     $title = $_POST['title'];

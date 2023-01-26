@@ -1,12 +1,40 @@
 <?php
 
+include_once 'includes/autoload.inc.php';
+
+function allArticlesNumber() {
+    $articleController = new ArticleContr();
+    $articles = $articleController->getArticlesInfo();
+    echo count($articles);
+}
+
+function allWritersNumber() {
+    $userContr = new UserContr();
+    $writers = $userContr->getWriters();
+    echo count($writers);
+}
+
+function allUsersNumber() {
+    $usrC = new UserContr;
+    $count = count($usrC->getAdmins());
+    $count += count($usrC->getWriters());
+    $count += count($usrC->getReaders());
+
+    return $count;
+}
+
+function allCatNumber() {
+    $catCon = new CategoryContr;
+    $count = count($catCon->getCategories());
+    return $count;
+}
+
 function showArticles()
 {
     $articleController = new ArticleContr();
     $articles = $articleController->getArticlesInfo();
     foreach ($articles as $article) {
-        // $author = $article['firstname'] . ' ' . $article['lastname'];
-        echo "<tr>
+        echo "<tr class='table-data-row'>
                 <td class='text-dark text-center'>{$article['title']}</td>
                 <td class='text-dark text-center'>{$article['fullname']}</td>
                 <td class='text-dark text-center'>{$article['categoryname']}</td>

@@ -1,30 +1,27 @@
 <?php
 
-include "includes/autoload.inc.php";
+include_once "includes/autoload.inc.php";
 include_once 'includes/functions.php';
 
 ?>
 
-<section class="content_section" id="doctor_sessions_section">
+<section class="content_section">
     <div class="row my-3 ms-0 fs-4 fw-bold">Articles</div>
     <div class="w-100 my-4 d-flex justify-content-around border align-items-center py-2 shadow-sm">
-        <div class="w-75">
-            <!-- <label for="session-date">Search : </label> -->
-            <input type="text" class="rounded px-5 py-1 border-0 button1 w-100 ms-2" placeholder="search" name="session-date">
+        <div class="w-50">
+            <input type="text" class="rounded px-5 py-1 border-0 button1 w-100 ms-2" placeholder="search" id="articles-search" name="articles-search">
         </div>
         <button class="btn mycolor button1 px-5 rounded-pill"><i class="uil uil-filter me-2 mycolor"></i></i>Filter</button>
     </div>
     <!-- table -->
     <div class="table-responsive my-4" style="overflow: scroll;">
-        <table class="table table-light" style="border: 0.5px solid rgb(230, 229, 229);border-radius: 20px;">
+        <table id="articles_table" class="table table-light" style="border: 0.5px solid rgb(230, 229, 229);border-radius: 20px;">
             <tr class="" style="border-bottom: 2px #007A69 solid;">
                 <th class="mycolor fw-bold text-center">Article title</th>
-                <!-- <th class="mycolor fw-bold text-center">date of creation</th> -->
                 <th class="mycolor fw-bold text-center">Author</th>
                 <th class="mycolor fw-bold text-center">Category</th>
                 <th class="mycolor fw-bold text-center">Actions</th>
             </tr>
-            <?= showArticles() ?>
         </table>
     </div>
     <!-- End table -->
@@ -62,11 +59,6 @@ include_once 'includes/functions.php';
                             <label id="article_label_needed" class="text-danger msg_label d-none">article content needed</label>
                         </div>
                         <input type="text" id="articles_input" name="articles" hidden>
-                        <!-- <div class="d-flex justify-content-end mb-2">
-                            <button id="btnCancelArticle" class="btn btn-danger ms-1">cancel</button>
-                            <button id="btnAddArticle" class="btn btn-success ms-1">add</button>
-                            <button type="submit" id="btnSaveArticles" class="btn btn-primary ms-1">save</button>
-                        </div> -->
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -81,7 +73,7 @@ include_once 'includes/functions.php';
         const deleteButtons = document.querySelectorAll('.remove_article');
         const editButtons = document.querySelectorAll('.edit_article');
         const saveUpdate = document.getElementById('save_update');
-        // let myModal = new bootstrap.Modal(document.getElementById('editModal'));
+        const articlesSearch = document.getElementById('articles-search');
 
         const articleTitle = document.getElementById('article_title');
         const articleAuthor = document.getElementById('article_author');
@@ -105,6 +97,38 @@ include_once 'includes/functions.php';
             ],
         });
 
+        function deleteTableRows() {
+            document.querySelectorAll('.table-data-row').forEach((tr) => tr.remove());
+        }
+
+        articlesSearch.addEventListener('input', getArticles);
+
+        async function getArticles() {
+            let word = articlesSearch.value;
+            let response = await fetch(`includes/actions.php?articles_search=&word=${word}`);
+            let data = await response.json();
+            let ar = [];
+            console.log(data);
+            deleteTableRows();
+            data.forEach((article) => {
+                let tableRow = document.createElement('tr');
+                tableRow.classList.add('table-data-row');
+                tableRow.innerHTML = `
+                            <td class='text-dark text-center'>${article['title']}</td>
+                            <td class='text-dark text-center'>${article['fullname']}</td>
+                            <td class='text-dark text-center'>${article['categoryname']}</td>
+                            <td class='text-dark text-center'>
+                                <button data-article-id='${article['id']}' class='btn mycolor button1 rounded-pill edit_article' data-bs-toggle='modal' data-bs-target='#editModal'><i class='mycolor uil uil-pen pe-1'></i>Edit</button>
+                                <button data-article-id='${article['id']}' class='btn mycolor button1 rounded-pill remove_article'><i class='mycolor uil uil-trash pe-1'></i>Delete</button>
+                            </td>
+                `;
+                document.getElementById('articles_table').append(tableRow);
+            })
+            tableRowsActionButtons();
+        }
+
+        getArticles();
+
         async function fillInputs() {
             let response = await fetch(`includes/update_article.php?get_article_data=${idToUpdate}`);
             let data = await response.json();
@@ -114,25 +138,28 @@ include_once 'includes/functions.php';
             tinymce.activeEditor.setContent(data['body']);
         }
 
-        editButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                idToUpdate = btn.dataset.articleId;
-                fillInputs();
-            });
-        });
-
-        deleteButtons.forEach(btn => {
-            btn.addEventListener('click', async () => {
-                let formData = new FormData();
-                formData.append('id', btn.dataset.articleId);
-                formData.append('remove_article', '');
-                let response = await fetch('includes/remove_article.php', {
-                    method: 'post',
-                    body: formData
+        function tableRowsActionButtons() {
+            document.querySelectorAll('.edit_article').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    idToUpdate = btn.dataset.articleId;
+                    fillInputs();
                 });
-                location.reload();
             });
-        });
+
+            document.querySelectorAll('.remove_article').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    let formData = new FormData();
+                    formData.append('id', btn.dataset.articleId);
+                    formData.append('remove_article', '');
+                    let response = await fetch('includes/remove_article.php', {
+                        method: 'post',
+                        body: formData
+                    });
+                    location.reload();
+                });
+            });
+        }
+        tableRowsActionButtons();
 
         let article;
         saveUpdate.addEventListener('click', async () => {
